@@ -1,8 +1,8 @@
 """
 OAuth2 setup for support@ascend.store Gmail access.
 
-Run this once interactively to authorize the account. It opens a browser
-window for Google sign-in and stores the token in token_support.json.
+Works on headless servers (no browser required). It prints a URL you open
+on your own PC, then you paste the authorization code back into the terminal.
 
 Usage:
     python setup_auth.py [--credentials credentials.json]
@@ -38,11 +38,25 @@ def main() -> None:
         print(__doc__)
         sys.exit(1)
 
-    print("Opening browser for Google sign-in...")
-    print("Sign in with support@ascend.store (not your personal account).\n")
+    flow = InstalledAppFlow.from_client_secrets_file(
+        args.credentials,
+        SCOPES,
+        redirect_uri="urn:ietf:wg:oauth:2.0:oob",
+    )
+    auth_url, _ = flow.authorization_url(prompt="consent")
 
-    flow = InstalledAppFlow.from_client_secrets_file(args.credentials, SCOPES)
-    creds = flow.run_local_server(port=0)
+    print("=" * 60)
+    print("Open this URL in a browser on your own PC:")
+    print()
+    print(auth_url)
+    print()
+    print("Sign in with support@ascend.store (not your personal account).")
+    print("After approving, Google will show you an authorization code.")
+    print("=" * 60)
+    code = input("\nPaste the authorization code here and press Enter: ").strip()
+
+    flow.fetch_token(code=code)
+    creds = flow.credentials
 
     with open(TOKEN_FILE, "w") as f:
         f.write(creds.to_json())

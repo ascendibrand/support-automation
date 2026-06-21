@@ -91,35 +91,36 @@ Replace `/path/to/credentials.json` with the actual path on your computer (e.g. 
 
 ## Part 6 — Authorize support@ascend.store (no browser needed)
 
-Servers don't have a browser, so the normal OAuth flow won't work. Instead you'll authorize on your local machine and upload the token file.
-
-**On your local machine:**
-
-Make sure you have the dependencies installed locally first:
+Run this on the server. It will print a URL instead of opening a browser:
 
 ```bash
-pip install google-auth-oauthlib google-api-python-client
-```
-
-Then run setup_auth.py from your local copy of the repo (or just download setup_auth.py temporarily):
-
-```bash
+cd ~/support-automation
+source venv/bin/activate
 python setup_auth.py
 ```
 
-A browser window will open. Sign in with `support@ascend.store`. When it completes, a file called `token_support.json` will appear in the current directory.
+You'll see output like:
 
-**Upload it to the server:**
+```
+============================================================
+Open this URL in a browser on your own PC:
 
-```bash
-scp token_support.json root@YOUR_SERVER_IP:~/support-automation/token_support.json
+https://accounts.google.com/o/oauth2/auth?...
+
+Sign in with support@ascend.store (not your personal account).
+After approving, Google will show you an authorization code.
+============================================================
+
+Paste the authorization code here and press Enter:
 ```
 
-**Back on the server**, verify it's there:
+1. Copy the long URL and open it in a browser **on your own PC**
+2. Sign in with `support@ascend.store`
+3. Click Allow
+4. Google will show you a short authorization code — copy it
+5. Paste it back into the server terminal and press Enter
 
-```bash
-ls ~/support-automation/token_support.json
-```
+The script will confirm which account was authorized and save `token_support.json`.
 
 ---
 
