@@ -19,6 +19,10 @@ import sys
 import textwrap
 from pathlib import Path
 
+from scripts.env import PROJECT_ROOT, load_dotenv
+
+load_dotenv()
+
 import anthropic
 
 from scripts.gmail_client import GmailClient, Thread
@@ -109,12 +113,12 @@ def draft_reply(
 
 def run(
     max_threads: int = 50,
-    kb_path: str = "kb.json",
+    kb_path: str = str(PROJECT_ROOT / "kb.json"),
     dry_run: bool = False,
 ) -> None:
     print("=== Support Email Automation ===\n")
 
-    ai = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+    ai = anthropic.Anthropic()  # ANTHROPIC_API_KEY loaded from .env or environment
 
     print("Connecting to Gmail...")
     gmail = GmailClient()
@@ -213,7 +217,7 @@ def run(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Support email automation")
     parser.add_argument("--max-threads", type=int, default=50, help="Max inbox threads to process")
-    parser.add_argument("--kb", default="kb.json", help="Path to knowledge base JSON")
+    parser.add_argument("--kb", default=str(PROJECT_ROOT / "kb.json"), help="Path to knowledge base JSON")
     parser.add_argument(
         "--dry-run",
         action="store_true",

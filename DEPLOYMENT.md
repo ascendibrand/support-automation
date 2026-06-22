@@ -143,8 +143,7 @@ This scans your past replied threads and builds the RAG knowledge base:
 
 ```bash
 cd ~/support-automation
-source venv/bin/activate
-python scripts/build_kb.py
+venv/bin/python scripts/build_kb.py
 ```
 
 It will print how many threads it found and save `kb.json`. This can take a minute or two depending on how many emails are in the inbox.
@@ -157,9 +156,7 @@ Do a dry run first to make sure everything works before scheduling it:
 
 ```bash
 cd ~/support-automation
-source venv/bin/activate
-export $(cat .env)
-python orchestrate.py --dry-run
+venv/bin/python orchestrate.py --dry-run
 ```
 
 You should see threads being classified and draft previews printed. No changes are made to Gmail in dry-run mode.
@@ -167,7 +164,7 @@ You should see threads being classified and draft previews printed. No changes a
 If that looks good, do a live run:
 
 ```bash
-python orchestrate.py
+venv/bin/python orchestrate.py
 ```
 
 Check your Gmail inbox — threads should now have `Support/No Action` or `Support/Action Required` labels, and drafts should appear for action-required threads.
@@ -192,9 +189,9 @@ If it asks which editor to use, type `1` and press Enter to pick nano.
 Paste these two lines at the bottom of the file (everything after the `#` comments):
 
 ```
-*/15 * * * * cd /root/support-automation && source venv/bin/activate && export $(cat .env) && python orchestrate.py >> logs/run.log 2>&1
+*/15 * * * * cd /root/support-automation && venv/bin/python orchestrate.py >> logs/run.log 2>&1
 
-0 3 * * * cd /root/support-automation && source venv/bin/activate && export $(cat .env) && python scripts/build_kb.py >> logs/kb.log 2>&1
+0 3 * * * cd /root/support-automation && venv/bin/python scripts/build_kb.py >> logs/kb.log 2>&1
 ```
 
 Save and exit: press `Ctrl+X`, then `Y`, then `Enter`.
@@ -257,9 +254,7 @@ If you want to rebuild the KB outside of the 3am schedule (e.g. after a burst of
 
 ```bash
 cd ~/support-automation
-source venv/bin/activate
-export $(cat .env)
-python scripts/build_kb.py
+venv/bin/python scripts/build_kb.py
 ```
 
 ---
@@ -269,8 +264,8 @@ python scripts/build_kb.py
 | Task | Command |
 |---|---|
 | Check recent logs | `tail -50 ~/support-automation/logs/run.log` |
-| Run manually | `cd ~/support-automation && source venv/bin/activate && export $(cat .env) && python orchestrate.py` |
+| Run manually | `cd ~/support-automation && venv/bin/python orchestrate.py` |
 | Dry run | same as above but add `--dry-run` |
-| Rebuild KB | same as above but `python scripts/build_kb.py` |
+| Rebuild KB | `cd ~/support-automation && venv/bin/python scripts/build_kb.py` |
 | Edit cron schedule | `crontab -e` |
 | View cron jobs | `crontab -l` |

@@ -14,8 +14,10 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
+from scripts.env import PROJECT_ROOT
+
 SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
-TOKEN_FILE = "token_support.json"
+TOKEN_FILE = str(PROJECT_ROOT / "token_support.json")
 
 
 @dataclass

@@ -19,13 +19,17 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+from pathlib import Path
+
+# Resolve project root from this file's location so paths work regardless of cwd
+PROJECT_ROOT = Path(__file__).resolve().parent
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
-DEFAULT_CREDS = "credentials.json"
-TOKEN_FILE = "token_support.json"
+DEFAULT_CREDS = str(PROJECT_ROOT / "credentials.json")
+TOKEN_FILE = str(PROJECT_ROOT / "token_support.json")
 
 
 def main() -> None:

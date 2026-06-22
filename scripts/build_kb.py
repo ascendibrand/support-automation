@@ -19,7 +19,10 @@ from datetime import timezone
 # Allow running from project root or scripts/
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from scripts.env import PROJECT_ROOT, load_dotenv
 from scripts.gmail_client import GmailClient, Thread
+
+load_dotenv()
 
 
 def thread_to_kb_entry(thread: Thread) -> dict | None:
@@ -56,7 +59,7 @@ def thread_to_kb_entry(thread: Thread) -> dict | None:
     }
 
 
-def build_kb(output_path: str = "kb.json", max_threads: int = 500) -> None:
+def build_kb(output_path: str = str(PROJECT_ROOT / "kb.json"), max_threads: int = 500) -> None:
     print("Connecting to Gmail...")
     client = GmailClient()
     print(f"Authorized as: {client.support_email}")
@@ -81,7 +84,7 @@ def build_kb(output_path: str = "kb.json", max_threads: int = 500) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build RAG knowledge base from Gmail threads")
-    parser.add_argument("--output", default="kb.json", help="Output JSON file (default: kb.json)")
+    parser.add_argument("--output", default=str(PROJECT_ROOT / "kb.json"), help="Output JSON file")
     parser.add_argument("--max-threads", type=int, default=500, help="Max threads to scan")
     args = parser.parse_args()
     build_kb(output_path=args.output, max_threads=args.max_threads)
