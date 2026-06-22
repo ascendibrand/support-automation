@@ -32,7 +32,7 @@ LABEL_NO_ACTION = "Support/No Action"
 LABEL_ACTION_REQUIRED = "Support/Action Required"
 
 MODEL_CLASSIFY = "claude-haiku-4-5-20251001"
-MODEL_DRAFT = "claude-opus-4-8"
+MODEL_DRAFT = "claude-haiku-4-5-20251001"
 
 
 def load_directive(name: str) -> str:

@@ -13,7 +13,7 @@ For each unhandled inbox thread:
 1. **Hard rule**: if the last message in the thread is from support, label "Support/No Action" and skip (no LLM call)
 2. **Classify** with Claude Haiku (`claude-haiku-4-5`): "No Action" or "Action Required"
 3. **Apply Gmail label**: `Support/No Action` or `Support/Action Required`
-4. **Draft reply** (Action Required only): RAG retrieves past answers → Claude Opus (`claude-opus-4-8`) writes a casual draft → saved as Gmail draft for manual review
+4. **Draft reply** (Action Required only): RAG retrieves past answers → Claude Haiku (`claude-haiku-4-5`) writes a casual draft → saved as Gmail draft for manual review
 
 Drafts are never sent automatically.
 
