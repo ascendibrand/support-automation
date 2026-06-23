@@ -27,7 +27,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
+SCOPES = ["https://www.googleapis.com/auth/gmail.modify", "https://www.googleapis.com/auth/spreadsheets"]
 DEFAULT_CREDS = str(PROJECT_ROOT / "credentials.json")
 TOKEN_FILE = str(PROJECT_ROOT / "token_support.json")
 
